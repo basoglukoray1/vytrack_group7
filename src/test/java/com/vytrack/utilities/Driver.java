@@ -14,7 +14,8 @@ public class Driver {
     object of this class from outside of the class
      */
 
-    private Driver(){}
+    private Driver() {
+    }
 
     /*
     We make Webdriver private bc we want to close access from otuside the class
@@ -22,37 +23,38 @@ public class Driver {
      */
 
     private static WebDriver driver;
+
     /*
     Create a re-usable utility method which will  return same driver
     instance when we call it
      */
-    public static WebDriver getDriver(){
+    public static WebDriver getDriver() {
 
-        if (driver == null){
+        if (driver == null) {
 
             /*
             We read our BrowserType from configuration.properties
             This way we can control which browser is opened from outside our code from config prop
              */
-        String browserType = ConfigurationReader.getProperty("browser");
+            String browserType = ConfigurationReader.getProperty("browser");
 
-        switch (browserType){
-            case "chrome":
-                WebDriverManager.chromedriver().setup();
-                driver=new ChromeDriver();
-                driver.manage().window().maximize();
-                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-                break;
+            switch (browserType) {
+                case "chrome":
+                    WebDriverManager.chromedriver().setup();
+                    driver = new ChromeDriver();
+                    driver.manage().window().maximize();
+                    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+                    break;
 
-            case "firefox":
-                WebDriverManager.firefoxdriver().setup();
-                driver=new FirefoxDriver();
-                driver.manage().window().maximize();
-                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-                break;
+                case "firefox":
+                    WebDriverManager.firefoxdriver().setup();
+                    driver = new FirefoxDriver();
+                    driver.manage().window().maximize();
+                    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+                    break;
 
 
-        }
+            }
         }
 
 
@@ -60,4 +62,11 @@ public class Driver {
 
     }
 
+    public static void closeDriver() {
+        if (driver != null) {
+            driver.quit();
+            driver = null;
+        }
+
+    }
 }
